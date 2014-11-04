@@ -7,14 +7,14 @@ import com.duowan.mobile.netroid.toolbox.ImageLoader;
 import java.util.concurrent.TimeUnit;
 
 public class SelfImageLoader extends ImageLoader {
-	public SelfImageLoader(RequestQueue queue, ImageCache cache) {
-		super(queue, cache);
-	}
+    public SelfImageLoader(RequestQueue queue, ImageCache cache) {
+        super(queue, cache);
+    }
 
-	@Override
-	public ImageRequest buildRequest(String requestUrl, int maxWidth, int maxHeight) {
-		ImageRequest request = new ImageRequest(requestUrl, maxWidth, maxHeight);
-		request.setCacheExpireTime(TimeUnit.MINUTES, 20);
-		return request;
-	}
+    @Override
+    public ImageRequest buildRequest(String requestUrl, int maxWidth, int maxHeight) {
+        ImageRequest request = new ImageRequest(requestUrl, maxWidth, maxHeight);
+        request.setCacheExpireTime(TimeUnit.MINUTES, 20);
+        return request;
+    }
 }

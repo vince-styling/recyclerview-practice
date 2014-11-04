@@ -40,7 +40,7 @@ public class VideoViewPool {
         }
 
         public void bindView(Video video) {
-            Netroid.displayImage(video.getScreenshot(), imvVideoCover);
+            Netroid.displayImage(video.getScreenshot(), imvVideoCover, R.drawable.video_cover_loading, 0);
             txvVideoTitle.setText(video.getTitle());
         }
     }
