@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">recyclerview-practice</string>
+    <string name="start_record">Start_Record</string>
+
+    <string name="loading">数据正在加载中…</string>
+    <string name="loading_failed">数据加载失败</string>
+    <string name="tips_without_installed_game">你的手机上没有安装游戏</string>
+    <string name="tips_has_installed_game">我的游戏攻略</string>
+    <string name="tips_has_hot_game">热门游戏攻略</string>
+    <string name="titlebar">热门</string>
+
+    <style name="top_title_bar_txv">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">46dp</item>
+        <item name="android:background">@drawable/titlebar_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="game_banner_txv">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#888888</item>
+    </style>
+
+    <style name="games_stat_txv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#868686</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:drawablePadding">5dp</item>
+    </style>
+
+    <style name="MyCustomTheme" parent="@android:style/Theme.Holo.Light.NoActionBar">
+        <item name="android:windowBackground">@color/theme_windows_bg</item>
+        <item name="android:colorBackground">@color/theme_windows_bg</item>
+        <item name="android:textColorPrimary">@color/theme_primary_text_color</item>
+        <item name="android:textColorSecondary">@color/theme_secondary_text_color</item>
+    </style>
+
+    <color name="theme_windows_bg">#ffffff</color>
+    <color name="theme_primary_text_color">#454545</color>
+    <color name="theme_secondary_text_color">#666666</color>
+</resources>

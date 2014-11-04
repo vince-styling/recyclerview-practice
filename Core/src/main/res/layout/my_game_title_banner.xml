@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/game_banner_txv"
+    android:paddingTop="10dp"
+    android:text="@string/tips_has_installed_game"/>
