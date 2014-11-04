@@ -2,18 +2,17 @@ package com.vincestyling.recyclerview_practice;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.duowan.mobile.netroid.Listener;
 import com.duowan.mobile.netroid.NetroidError;
-import com.vincestyling.recyclerview_practice.entity.Data;
+import com.vincestyling.recyclerview_practice.entity.Game;
 
 import java.util.List;
 
 public class MainActivity extends Activity {
-    private RecyclerView mLsvMain;
+    private ListView mLsvMain;
     private TextView mTxvLoadingTip;
     private View mLotLoading, mPrbLoading;
     private VideoViewPool mViewPool;
@@ -23,8 +22,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mLsvMain = (RecyclerView) findViewById(R.id.lsvMain);
-        mLsvMain.setLayoutManager(new LinearLayoutManager(this));
+        mLsvMain = (ListView) findViewById(R.id.lsvMain);
 
         mViewPool = new VideoViewPool();
 
@@ -32,9 +30,9 @@ public class MainActivity extends Activity {
         mLotLoading = findViewById(R.id.lotLoading);
         mPrbLoading = findViewById(R.id.prbLoading);
 
-        Netroid.getGameList(new Listener<List<Data>>() {
+        Netroid.getGameList(new Listener<List<Game>>() {
             @Override
-            public void onSuccess(List<Data> games) {
+            public void onSuccess(List<Game> games) {
                 mLotLoading.setVisibility(View.GONE);
                 mLsvMain.setVisibility(View.VISIBLE);
                 mLsvMain.setAdapter(new SimpleAdapter(games, mViewPool));

@@ -1,5 +1,6 @@
 package com.vincestyling.recyclerview_practice;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridLayout;
@@ -17,7 +18,7 @@ public class VideoViewPool {
         View view = mViewHeap.poll();
         if (view == null) {
             view = LayoutInflater.from(gridVideo.getContext()).inflate(R.layout.game_video_item, gridVideo, false);
-//            Log.e("", String.format("Video item createViewCount : %d", ++STAT_GAME_VIDEO_ITEM_COUNT));
+            Log.e("", String.format("Video item createViewCount : %d", ++STAT_GAME_VIDEO_ITEM_COUNT));
             view.setTag(new VideoHolder(view));
         }
         return view;

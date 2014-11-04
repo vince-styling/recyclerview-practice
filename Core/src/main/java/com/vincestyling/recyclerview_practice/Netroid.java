@@ -10,7 +10,6 @@ import com.duowan.mobile.netroid.image.NetworkImageView;
 import com.duowan.mobile.netroid.stack.HurlStack;
 import com.duowan.mobile.netroid.toolbox.BasicNetwork;
 import com.duowan.mobile.netroid.toolbox.ImageLoader;
-import com.vincestyling.recyclerview_practice.entity.Data;
 import com.vincestyling.recyclerview_practice.entity.Game;
 import org.apache.http.protocol.HTTP;
 
@@ -62,7 +61,7 @@ public class Netroid {
 		}
 	}
 
-    public static void getGameList(Listener<List<Data>> listener) {
+    public static void getGameList(Listener<List<Game>> listener) {
         get().add(new GameListRequest("http://vince-styling.github.io/recyclerview-practice/game_list.json", listener));
     }
 
