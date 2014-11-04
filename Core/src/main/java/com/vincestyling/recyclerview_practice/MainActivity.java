@@ -13,12 +13,10 @@ import com.vincestyling.recyclerview_practice.entity.Data;
 import java.util.List;
 
 public class MainActivity extends Activity {
-    public static int STAT_GAME_VIDEO_ITEM_COUNT;
-
     private RecyclerView mLsvMain;
     private TextView mTxvLoadingTip;
     private View mLotLoading, mPrbLoading;
-    private RecyclerView.RecycledViewPool mViewPool;
+    private VideoViewPool mViewPool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +26,7 @@ public class MainActivity extends Activity {
         mLsvMain = (RecyclerView) findViewById(R.id.lsvMain);
         mLsvMain.setLayoutManager(new LinearLayoutManager(this));
 
-        mViewPool = new RecyclerView.RecycledViewPool();
-//        mLsvMain.setRecycledViewPool(mViewPool);
+        mViewPool = new VideoViewPool();
 
         mTxvLoadingTip = (TextView) findViewById(R.id.txvLoadingTip);
         mLotLoading = findViewById(R.id.lotLoading);

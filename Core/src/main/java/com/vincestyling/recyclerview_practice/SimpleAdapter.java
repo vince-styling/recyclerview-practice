@@ -9,10 +9,10 @@ import java.util.List;
 
 public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private SparseArray<Data> viewDatas = new SparseArray<Data>(3);
-    private RecyclerView.RecycledViewPool mViewPool;
+    private VideoViewPool mViewPool;
     private List<Data> mItems;
 
-    public SimpleAdapter(List<Data> items, RecyclerView.RecycledViewPool mViewPool) {
+    public SimpleAdapter(List<Data> items, VideoViewPool mViewPool) {
         this.mViewPool = mViewPool;
         mItems = items;
 

@@ -1,23 +1,21 @@
 package com.vincestyling.recyclerview_practice.entity;
 
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import com.duowan.mobile.netroid.image.NetworkImageView;
-import com.vincestyling.recyclerview_practice.MainActivity;
 import com.vincestyling.recyclerview_practice.Netroid;
 import com.vincestyling.recyclerview_practice.R;
-
-import java.util.List;
+import com.vincestyling.recyclerview_practice.VideoViewPool;
 
 public class GameData extends Data {
     private static final int TYPE = 3;
+    public int STAT_GAME_ITEM_COUNT;
 
     private Game mGame;
 
@@ -30,7 +28,8 @@ public class GameData extends Data {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container, RecyclerView.RecycledViewPool mViewPool) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container, VideoViewPool mViewPool) {
+        Log.e("", String.format("Game item createViewCount : %d", ++STAT_GAME_ITEM_COUNT));
         return new ViewHolder(inflate(container, R.layout.game_item), mViewPool);
     }
 
@@ -38,30 +37,20 @@ public class GameData extends Data {
         private View itemView;
         private TextView txvGameName, txvReadCount, txvVideoCount;
         private NetworkImageView imvLogo;
-        private RecyclerView gridVideo;
+        private GridLayout gridVideo;
+        private VideoViewPool mViewPool;
 
-        public ViewHolder(View itemView, RecyclerView.RecycledViewPool mViewPool) {
+        public ViewHolder(View itemView, VideoViewPool mViewPool) {
             super(itemView);
-
             this.itemView = itemView;
+            this.mViewPool = mViewPool;
+
+            gridVideo = (GridLayout) itemView.findViewById(R.id.gridVideo);
+
             imvLogo = (NetworkImageView) itemView.findViewById(R.id.imvLogo);
             txvGameName = (TextView) itemView.findViewById(R.id.txvGameName);
             txvReadCount = (TextView) itemView.findViewById(R.id.txvReadCount);
             txvVideoCount = (TextView) itemView.findViewById(R.id.txvVideoCount);
-
-            gridVideo = (RecyclerView) itemView.findViewById(R.id.gridVideo);
-            StaggeredGridLayoutManager gridLayout = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-            gridVideo.setLayoutManager(gridLayout);
-            gridVideo.setRecycledViewPool(mViewPool);
-            gridVideo.addItemDecoration(new RecyclerView.ItemDecoration() {
-                // this value should be retrieving from res/values.
-                private int mInsets = 10;
-
-                @Override
-                public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                    outRect.set(mInsets, mInsets, mInsets, mInsets);
-                }
-            });
         }
 
         public void bindView(Game game) {
@@ -72,66 +61,26 @@ public class GameData extends Data {
             txvReadCount.setText(String.valueOf(game.getReadCount()));
             txvVideoCount.setText(String.format("%d +%d", game.getVideoCount(), game.getRecentAddedCount()));
 
-            VideoAdapter adapter = (VideoAdapter) gridVideo.getAdapter();
-            if (adapter == null) {
-                adapter = new VideoAdapter(game.getVideoList());
-                gridVideo.setAdapter(adapter);
-            } else {
-                adapter.setVideoList(game.getVideoList());
+            int childCount = gridVideo.getChildCount();
+            final int diffCount = childCount - game.getVideoList().size();
+            for (int i = 0; i < diffCount; i++) {
+                View view = gridVideo.getChildAt(--childCount);
+                gridVideo.removeViewAt(childCount);
+                mViewPool.recycleView(view);
             }
-            int rowCount = (adapter.getItemCount() - 1) / 2 + 1;
-            gridVideo.getLayoutParams().height = rowCount * 242;
-        }
-    }
 
-    private static class GridViewHolder extends RecyclerView.ViewHolder {
-        TextView txvVideoTitle;
-        NetworkImageView imvVideoCover;
-        public GridViewHolder(View itemView) {
-            super(itemView);
-            txvVideoTitle = (TextView) itemView.findViewById(R.id.txvVideoTitle);
-            imvVideoCover = (NetworkImageView) itemView.findViewById(R.id.imvVideoCover);
-        }
+            for (int i = 0; i > diffCount; i--) {
+                View view = mViewPool.getView(gridVideo);
+                gridVideo.addView(view);
+            }
 
-        public void bindView(Video video) {
-            Netroid.displayImage(video.getScreenshot(), imvVideoCover);
-            txvVideoTitle.setText(video.getTitle());
-        }
-    }
-
-    private static class VideoAdapter extends RecyclerView.Adapter<GridViewHolder> {
-        private static final int TYPE = 4;
-        private List<Video> mVideoList;
-
-        private VideoAdapter(List<Video> videoList) {
-            mVideoList = videoList;
-        }
-
-        public void setVideoList(List<Video> mVideoList) {
-            this.mVideoList = mVideoList;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public GridViewHolder onCreateViewHolder(ViewGroup container, int viewType) {
-            Log.e("", String.format("createViewCount : %d", ++MainActivity.STAT_GAME_VIDEO_ITEM_COUNT));
-            return new GridViewHolder(inflate(container, R.layout.game_video_item));
-        }
-
-        @Override
-        public void onBindViewHolder(GridViewHolder holder, int position) {
-            Video video = mVideoList.get(position);
-            holder.bindView(video);
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return TYPE;
-        }
-
-        @Override
-        public int getItemCount() {
-            return mVideoList.size();
+            Log.e("", String.format("Name %s, Video Count : %d GridVideo ChildCount : %d, ViewPool size : %d",
+                    game.getName(), game.getVideoList().size(), gridVideo.getChildCount(), mViewPool.size()));
+            for (int i = 0; i < gridVideo.getChildCount(); i++) {
+                VideoViewPool.VideoHolder holder =
+                        (VideoViewPool.VideoHolder) gridVideo.getChildAt(i).getTag();
+                holder.bindView(game.getVideoList().get(i));
+            }
         }
     }
 

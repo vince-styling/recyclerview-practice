@@ -69,10 +69,12 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <GridLayout
             android:id="@+id/gridVideo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:useDefaultMargins="true"/>
 
     </LinearLayout>
 
