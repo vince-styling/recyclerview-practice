@@ -1,5 +1,6 @@
 package com.vincestyling.recyclerview_practice;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridLayout;
@@ -9,7 +10,13 @@ import com.vincestyling.recyclerview_practice.entity.Video;
 
 import java.util.LinkedList;
 
+/**
+ * A view pool that used to recycling video's itemView, then re-use while GridLayout needed.
+ * It just a very basic implementation, isn't a good choice in productization context.
+ * I'm still looking for a good way to achieve how to share views between GridLayouts.
+ */
 public class VideoViewPool {
+    // in order to avoiding memory leak, this heap should be shrink after the root RecyclerView been idle.
     private LinkedList<View> mViewHeap = new LinkedList<View>();
     public int STAT_GAME_VIDEO_ITEM_COUNT;
 
@@ -17,7 +24,7 @@ public class VideoViewPool {
         View view = mViewHeap.poll();
         if (view == null) {
             view = LayoutInflater.from(gridVideo.getContext()).inflate(R.layout.game_video_item, gridVideo, false);
-//            Log.e("", String.format("Video item createViewCount : %d", ++STAT_GAME_VIDEO_ITEM_COUNT));
+            Log.e("", String.format("Video item createViewCount : %d", ++STAT_GAME_VIDEO_ITEM_COUNT));
             view.setTag(new VideoHolder(view));
         }
         return view;

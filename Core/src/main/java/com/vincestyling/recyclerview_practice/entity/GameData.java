@@ -15,7 +15,6 @@ import com.vincestyling.recyclerview_practice.VideoViewPool;
 
 public class GameData extends Data {
     private static final int TYPE = 3;
-    public int STAT_GAME_ITEM_COUNT;
 
     private Game mGame;
 
@@ -29,7 +28,6 @@ public class GameData extends Data {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container, VideoViewPool mViewPool) {
-        Log.e("", String.format("Game item createViewCount : %d", ++STAT_GAME_ITEM_COUNT));
         return new ViewHolder(inflate(container, R.layout.game_item), mViewPool);
     }
 
@@ -63,12 +61,15 @@ public class GameData extends Data {
 
             int childCount = gridVideo.getChildCount();
             final int diffCount = childCount - game.getVideoList().size();
+
+            // decreasing the child views to match current video count.
             for (int i = 0; i < diffCount; i++) {
                 View view = gridVideo.getChildAt(--childCount);
                 gridVideo.removeViewAt(childCount);
                 mViewPool.recycleView(view);
             }
 
+            // increasing the child views to match current video count.
             for (int i = 0; i > diffCount; i--) {
                 View view = mViewPool.getView(gridVideo);
                 gridVideo.addView(view);
